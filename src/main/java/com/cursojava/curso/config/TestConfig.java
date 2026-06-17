@@ -10,10 +10,12 @@ import org.springframework.context.annotation.Profile;
 
 import com.cursojava.curso.entities.Category;
 import com.cursojava.curso.entities.Order;
+import com.cursojava.curso.entities.Product;
 import com.cursojava.curso.entities.User;
 import com.cursojava.curso.entities.enums.OrderStatus;
 import com.cursojava.curso.repositories.CategoryRepository;
 import com.cursojava.curso.repositories.OrderRepository;
+import com.cursojava.curso.repositories.ProductRepository;
 import com.cursojava.curso.repositories.UserRepository;
 
 @Configuration
@@ -26,6 +28,8 @@ public class TestConfig implements CommandLineRunner {
 	private OrderRepository orderRepository;
 	@Autowired
 	private CategoryRepository categoryRepository;
+	@Autowired
+	private ProductRepository productRepository;
 
 	@Override
 	public void run(String... args) throws Exception {
@@ -47,6 +51,23 @@ public class TestConfig implements CommandLineRunner {
 		Category c3 = new Category(null, "Computers");
 		
 		categoryRepository.saveAll(Arrays.asList(c1, c2, c3));
+		
+		Product p1 = new Product(null, "The Lord of the rings", "Lorem ipsum dolor sit, consectetur", 90.5, "");
+		Product p2 = new Product(null, "Smart TV", "Lorem ipsum dolor sit, consectetur", 2190.0, "");
+		Product p3 = new Product(null, "Macbook PRO", "Lorem ipsum dolor sit, consectetur", 1250.0, "");
+		Product p4 = new Product(null, "PC gamer", "Lorem ipsum dolor sit, consectetur", 1200.0, "");
+		Product p5 = new Product(null, "Rails for dummies", "Lorem ipsum dolor sit, consectetur", 100.99, "");
+		
+		productRepository.saveAll(Arrays.asList(p1, p2, p3, p4, p5));
+		
+		p1.getCategories().add(c2);
+		p2.getCategories().add(c1);
+		p2.getCategories().add(c3);
+		p3.getCategories().add(c3);
+		p4.getCategories().add(c3);
+		p5.getCategories().add(c2);
+		
+		productRepository.saveAll(Arrays.asList(p1, p2, p3, p4, p5));
 		
 	}
 	
